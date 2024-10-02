@@ -14,7 +14,7 @@
   "author": "Pooja Dissanayake",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "bootstrap": "^5.3.3",
     "chai": "^4.2.0",
     "chai-http": "^5.0.0",

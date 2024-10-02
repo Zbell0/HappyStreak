@@ -1,59 +1,60 @@
-const bcrypt = require("bcrypt");
-const userModel = require("../models/userModel");
+const bcrypt = require('bcryptjs'); // Change from 'bcrypt' to 'bcryptjs'
+
+const userModel = require('../models/userModel');
 
 async function renderLogin(req, res) {
-  res.render("login", { error: null });
+  res.render('login', { error: null });
 }
 
 async function loginUser(req, res) {
   try {
     const { email, password } = req.body;
     const user = await userModel.findUserByEmail(email);
-    console.log("Fetched user:", user);
+    console.log('Fetched user:', user);
     if (!user) {
       return res.json({
         statusCode: 401,
-        message: "Invalid credentials",
+        message: 'Invalid credentials',
       });
     }
     if (user) {
-      console.log("User found in database:", user);
+      console.log('User found in database:', user);
 
       // Compare entered password with stored hashed password
       const isMatch = await bcrypt.compare(password, user.password);
-      console.log("Password match result:", isMatch);
+      console.log('Password match result:', isMatch);
 
       if (isMatch) {
         req.session.userId = user._id; // Store user ID in session
-        console.log("User logged in, user ID: " + req.session.userId);
+        console.log('User logged in, user ID: ' + req.session.userId);
         return res.json({
           statusCode: 200,
-          message: "Login successful",
+          message: 'Login successful',
           data: { id: user._id },
         });
       } else {
         return res.json({
           statusCode: 401,
-          message: "Password is incorrect",
+          message: 'Password is incorrect',
         });
       }
     } else {
       return res.json({
         statusCode: 401,
-        message: "Invalid credentials",
+        message: 'Invalid credentials',
       });
     }
   } catch (error) {
-    console.error("Login error:", error);
+    console.error('Login error:', error);
     return res.json({
       statusCode: 401,
-      message: "Invalid credentials",
+      message: 'Invalid credentials',
     });
   }
 }
 
 async function renderRegister(req, res) {
-  res.render("register", { error: null });
+  res.render('register', { error: null });
 }
 
 async function registerUser(req, res) {
@@ -65,7 +66,7 @@ async function registerUser(req, res) {
     if (password !== confirmPassword) {
       return res.json({
         statusCode: 422,
-        message: "Passwords do not match",
+        message: 'Passwords do not match',
       });
       // return res.render("register", { error: "Passwords do not match" });
     }
@@ -75,7 +76,7 @@ async function registerUser(req, res) {
     if (existingUser) {
       return res.json({
         statusCode: 422,
-        message: "Email already in use",
+        message: 'Email already in use',
       });
       // return res.render("register", { error: "Email already in use" });
     }
@@ -95,11 +96,11 @@ async function registerUser(req, res) {
     });
     return res.json({
       statusCode: 201,
-      message: "Registered Successfully!",
+      message: 'Registered Successfully!',
     });
     // res.redirect("/login");
   } catch (error) {
-    console.error("Registration error:", error);
+    console.error('Registration error:', error);
     return res.json({
       statusCode: 401,
       message: error,
@@ -110,7 +111,7 @@ async function registerUser(req, res) {
 
 // Placeholder for forgot password logic
 async function renderForgotPassword(req, res) {
-  res.render("forgotpassword");
+  res.render('forgotpassword');
 }
 
 async function handleForgotPassword(req, res) {
