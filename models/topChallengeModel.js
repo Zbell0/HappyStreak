@@ -56,7 +56,6 @@ const fetchTopChallenge = async () => {
 
     return topChallenge;
   } catch (error) {
-    console.error('Error fetching top challenge:', error);
     throw error; // Rethrow error to handle it at the caller level
   }
 };
