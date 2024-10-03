@@ -1,6 +1,5 @@
 var expect = require('chai').expect;
 var request = require('request');
-const Contact = require('../models/contactModel');
 
 describe('Contact Form', function () {
   var url = 'http://localhost:3000/contact';
